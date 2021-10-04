@@ -1,0 +1,43 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - neutralize-quiz-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+      - neutralize-quiz-network
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
+
+  neutralize-quiz-app:
+    container_name: neutralize-quiz-app
+    image: neutralize-quiz-app:latest
+    build:
+      context: ../
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - neutralize-quiz-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+
+networks:
+  neutralize-quiz-network:

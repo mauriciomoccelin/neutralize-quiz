@@ -1,0 +1,1 @@
+docker-compose -p "neutralize" -f stack.yml up -d --build
