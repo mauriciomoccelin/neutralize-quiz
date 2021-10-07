@@ -8,6 +8,6 @@ export class QuizDto {
   active: boolean;
   @ApiProperty()
   description: string;
-  @ApiProperty({type: () => [Category]})
+  @ApiProperty({ type: () => [Category] })
   categories: Category[];
 }

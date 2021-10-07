@@ -4,6 +4,6 @@ import { Question } from './answer-question.dto';
 export class Category {
   @ApiProperty()
   description: string;
-  @ApiProperty({type: () => [Question]})
+  @ApiProperty({ type: () => [Question] })
   questions: Question[];
 }

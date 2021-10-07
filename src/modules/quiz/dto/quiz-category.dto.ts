@@ -6,6 +6,6 @@ export class Category {
   active: boolean;
   @ApiProperty()
   description: string;
-  @ApiProperty({type: () => [Question]})
+  @ApiProperty({ type: () => [Question] })
   questions: Question[];
 }

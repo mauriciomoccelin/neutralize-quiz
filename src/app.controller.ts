@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Request,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 import { SaveQuizDto } from './modules/quiz/dto/save-quiz.dto';
@@ -8,14 +16,23 @@ import { QuizService } from './modules/quiz/quiz.service';
 import { AnswerService } from './modules/answer/answer.service';
 import { SaveAnswerDto } from './modules/answer/dto/save-answer.dto';
 import { Answer } from './modules/answer/models/answer.model';
+import { LocalAuthGuard } from './modules/auth/local-auth.guard';
+import { AuthService } from './modules/auth/auth.service';
 
 @ApiTags('app')
 @Controller('app')
 export class AppController {
   constructor(
+    private authService: AuthService,
     private readonly quizService: QuizService,
     private readonly answerService: AnswerService,
   ) {}
+
+  @Post('auth/login')
+  @UseGuards(LocalAuthGuard)
+  async login(@Request() req) {
+    return this.authService.login(req.user);
+  }
 
   @Post('quiz/save')
   @ApiBody({ type: SaveQuizDto })
