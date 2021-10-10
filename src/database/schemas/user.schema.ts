@@ -9,6 +9,11 @@ export const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     select: false,
-    required: true,
+    required: true
+  },
+  roles: {
+    type: [String],
+    select: true,
+    required: true
   },
 });

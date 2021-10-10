@@ -21,6 +21,9 @@ import { AuthService } from './modules/auth/auth.service';
 import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
 import { UserDto } from './modules/users/dto/user.dto';
 import { UsersService } from './modules/users/users.service';
+import { Roles } from './modules/roles/roles.decorator';
+import { Role } from './modules/roles/role.enum';
+import { RolesGuard } from './modules/roles/roles.guard';
 
 @ApiTags('app')
 @Controller('app')
@@ -44,6 +47,8 @@ export class AppController {
     return this.userService.register(input);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
   @Post('quiz/save')
   @UseGuards(JwtAuthGuard)
   @ApiBody({ type: SaveQuizDto })
@@ -52,18 +57,23 @@ export class AppController {
   }
 
   @ApiBearerAuth()
+  @Roles(Role.Admin)
   @Get('quiz/get-all')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async getAllQuiz(): Promise<Array<Quiz>> {
     return await this.quizService.getAll();
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.User)
   @Get('quiz/get-by-id')
   @UseGuards(JwtAuthGuard)
   async getQuizById(@Query('id') id: string): Promise<Quiz> {
     return await this.quizService.getById(id);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.User)
   @Post('answer/save')
   @UseGuards(JwtAuthGuard)
   @ApiBody({ type: SaveQuizDto })
@@ -71,12 +81,16 @@ export class AppController {
     return this.answerService.save(input);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.User)
   @Get('answer/get-all')
   @UseGuards(JwtAuthGuard)
   async getAllAnswer(): Promise<Array<Answer>> {
     return await this.answerService.getAll();
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.User)
   @Get('answer/get-by-id')
   @UseGuards(JwtAuthGuard)
   async getAnswerById(@Query('id') id: string): Promise<Answer> {

@@ -6,6 +6,8 @@ import { AnswerModule } from './modules/answer/answer.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './modules/roles/roles.guard';
 
 @Module({
   imports: [
