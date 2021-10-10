@@ -1,23 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
-export type User = any;
+import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
+
+import { UserDto } from './dto/user.dto';
+import { User } from './models/use.model';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  private readonly saltOrRounds = 10;
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  constructor(
+    @Inject('USER_MODEL')
+    private userModel: Model<User>,
+  ) {}
+
+  async register(user: UserDto): Promise<boolean> {
+    user.password = await bcrypt.hash(user.password, this.saltOrRounds);
+
+    await this.userModel.updateOne(
+      { username: user.username },
+      { $set: user },
+      { upsert: true },
+    );
+
+    return true;
+  }
+
+  async findOne(username: string): Promise<User> {
+    return this.userModel.findOne({ username: username }).exec();
+  }
+
+  async checkPassword(username: string, password: string): Promise<boolean> {
+    const user = await this.userModel
+      .findOne({ username: username })
+      .select('password')
+      .exec();
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    return isMatch;
   }
 }

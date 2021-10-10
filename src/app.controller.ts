@@ -19,12 +19,15 @@ import { Answer } from './modules/answer/models/answer.model';
 import { LocalAuthGuard } from './modules/auth/local-auth.guard';
 import { AuthService } from './modules/auth/auth.service';
 import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
+import { UserDto } from './modules/users/dto/user.dto';
+import { UsersService } from './modules/users/users.service';
 
 @ApiTags('app')
 @Controller('app')
 export class AppController {
   constructor(
     private authService: AuthService,
+    private userService: UsersService,
     private readonly quizService: QuizService,
     private readonly answerService: AnswerService,
   ) {}
@@ -33,6 +36,12 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   async login(@Request() req) {
     return this.authService.login(req.user);
+  }
+
+  @Post('user/register')
+  @ApiBody({ type: UserDto })
+  async registerUser(@Body() input: UserDto): Promise<boolean> {
+    return this.userService.register(input);
   }
 
   @Post('quiz/save')
