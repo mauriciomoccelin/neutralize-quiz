@@ -20,9 +20,8 @@ export class QuizService {
         { $set: saveQuizDto },
         { upsert: true },
       );
-    }
-    else {
-      let quizToCreated = new this.quizModel(saveQuizDto);
+    } else {
+      const quizToCreated = new this.quizModel(saveQuizDto);
       await quizToCreated.save();
     }
 
@@ -34,6 +33,6 @@ export class QuizService {
   }
 
   async getById(id: string): Promise<Quiz> {
-    return this.quizModel.findOne({ _id: id}).exec();
+    return this.quizModel.findOne({ _id: id }).exec();
   }
 }

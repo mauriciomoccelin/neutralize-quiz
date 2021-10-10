@@ -30,6 +30,8 @@ services:
     build:
       context: ../
       dockerfile: ./Dockerfile
+    environment:
+      DATABASE_MONGO_URI: mongodb://root:root@mongo:27017/
     ports:
       - 3000:3000
     networks:

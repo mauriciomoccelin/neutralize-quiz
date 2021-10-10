@@ -8,6 +8,6 @@ export class AnswerDto {
   answerAt: Date;
   @ApiProperty()
   description: string;
-  @ApiProperty({type: () => [Category]})
+  @ApiProperty({ type: () => [Category] })
   categories: Category[];
 }

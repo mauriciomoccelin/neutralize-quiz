@@ -28,6 +28,6 @@ export class AnswerService {
   }
 
   async getById(id: string): Promise<Answer> {
-    return this.answerModel.findOne({ _id: id}).exec();
+    return this.answerModel.findOne({ _id: id }).exec();
   }
 }
