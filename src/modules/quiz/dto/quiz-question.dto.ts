@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { QuestionType } from '../models/quiz-question-type';
+import { QuizQuestionType } from '../models/quiz-question-type';
 
-export class Question {
+export class QuizQuestionDto {
   @ApiProperty()
   active: boolean;
-  @ApiProperty({ enum: QuestionType })
-  type: QuestionType;
+  @ApiProperty({ enum: QuizQuestionType })
+  type: QuizQuestionType;
   @ApiProperty()
   description: string;
 }

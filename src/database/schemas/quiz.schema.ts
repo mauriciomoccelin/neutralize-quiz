@@ -1,19 +1,25 @@
 import * as mongoose from 'mongoose';
 
-export const QuestionSchema = new mongoose.Schema({
+export const QuizQuestionSchema = new mongoose.Schema({
   active: Boolean,
   type: Number,
   description: String,
 });
 
-export const CategorySchema = new mongoose.Schema({
+export const QuizUserSchema = new mongoose.Schema({
+  name: Boolean,
+  email: String,
+});
+
+export const QuizCategorySchema = new mongoose.Schema({
   active: Boolean,
   description: String,
-  questions: [QuestionSchema],
+  questions: [QuizQuestionSchema],
 });
 
 export const QuizSchema = new mongoose.Schema({
   active: Boolean,
   description: String,
-  categories: [CategorySchema],
+  quizOf: QuizUserSchema,
+  categories: [QuizCategorySchema],
 });

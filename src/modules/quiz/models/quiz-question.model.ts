@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
 
-import { QuestionType } from './quiz-question-type';
+import { QuizQuestionType } from './quiz-question-type';
 
-export interface Question extends Document {
+export interface QuizQuestion extends Document {
   active: boolean;
-  type: QuestionType;
+  type: QuizQuestionType;
   description: string;
 }

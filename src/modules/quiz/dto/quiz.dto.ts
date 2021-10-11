@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Category } from './quiz-category.dto';
+import { QuizCategoryDto } from './quiz-category.dto';
+import { QuizUserDto } from './quiz-user.dto';
 
 export class QuizDto {
   @ApiProperty()
@@ -8,6 +9,8 @@ export class QuizDto {
   active: boolean;
   @ApiProperty()
   description: string;
-  @ApiProperty({ type: () => [Category] })
-  categories: Category[];
+  @ApiProperty({ type: () => QuizUserDto })
+  quizOf: QuizUserDto;
+  @ApiProperty({ type: () => [QuizCategoryDto] })
+  categories: QuizCategoryDto[];
 }

@@ -1,5 +1,4 @@
 import { Model } from 'mongoose';
-import { v4 as uuid } from 'uuid';
 import { Injectable, Inject } from '@nestjs/common';
 
 import { Quiz } from './models/quiz.model';
@@ -9,7 +8,7 @@ import { SaveQuizDto } from './dto/save-quiz.dto';
 export class QuizService {
   constructor(
     @Inject('QUIZ_MODEL')
-    private quizModel: Model<Quiz>,
+    private quizModel: Model<Quiz>
   ) {}
 
   async save(saveQuizDto: SaveQuizDto): Promise<boolean> {

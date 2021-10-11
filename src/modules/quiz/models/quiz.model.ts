@@ -1,9 +1,11 @@
 import { Document } from 'mongoose';
 
-import { Category } from './quiz-category.model';
+import { QuizCategory } from './quiz-category.model';
+import { QuizUser } from './quiz-user';
 
 export interface Quiz extends Document {
   active: boolean;
   description: string;
-  categories: Category[];
+  quizOf: QuizUser;
+  categories: QuizCategory[];
 }
