@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { QuestionType } from '../models/answer-question-type';
+import { AnswerQuestionType } from '../models/answer-question-type';
 
-export class Question {
-  @ApiProperty({ enum: QuestionType })
-  type: QuestionType;
+export class AnswerQuestion {
+  @ApiProperty({ enum: AnswerQuestionType })
+  type: AnswerQuestionType;
   @ApiProperty()
   description: string;
   @ApiProperty()

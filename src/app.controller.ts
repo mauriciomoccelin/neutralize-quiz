@@ -76,7 +76,7 @@ export class AppController {
   @Roles(Role.User)
   @Post('answer/save')
   @UseGuards(JwtAuthGuard)
-  @ApiBody({ type: SaveQuizDto })
+  @ApiBody({ type: SaveAnswerDto })
   async saveAnswer(@Body() input: SaveAnswerDto): Promise<boolean> {
     return this.answerService.save(input);
   }

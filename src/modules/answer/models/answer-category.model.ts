@@ -1,8 +1,8 @@
 import { Document } from 'mongoose';
 
-import { Question } from './answer-question.model';
+import { AnswerQuestion } from './answer-question.model';
 
-export interface Category extends Document {
+export interface AnswerCategory extends Document {
   description: string;
-  questions: Question[];
+  questions: AnswerQuestion[];
 }

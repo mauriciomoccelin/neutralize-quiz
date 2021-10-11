@@ -1,4 +1,4 @@
-export enum QuestionType {
+export enum AnswerQuestionType {
   Number = 1,
   SmallText = 2,
   LongText = 3,
