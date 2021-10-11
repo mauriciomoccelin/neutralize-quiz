@@ -28,7 +28,7 @@ export class UsersService {
   }
 
   async findOne(username: string): Promise<User> {
-    return this.userModel.findOne({ username: username }).exec();
+    return this.userModel.findOne({ username: username }).select('roles').exec();
   }
 
   async checkPassword(username: string, password: string): Promise<boolean> {

@@ -1,9 +1,15 @@
 import { Document } from 'mongoose';
 
-import { Category } from './answer-category.model';
+import { AnswerCategory } from './answer-category.model';
+import { AnswerUser } from './answer-user.model';
+import { QuizUser } from 'src/modules/quiz/models/quiz-user';
 
 export interface Answer extends Document {
-  answerAt: Date;
   description: string;
-  categories: Category[];
+  quizOfUserId: string,
+  quizOf: QuizUser;
+  answerAt: Date;
+  answerByUserId: string,
+  answerBy: AnswerUser;
+  categories: AnswerCategory[];
 }

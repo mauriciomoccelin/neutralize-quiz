@@ -41,7 +41,7 @@ export class AppController {
     return this.authService.login(req.user);
   }
 
-  @Post('user/register')
+  @Post('users/register')
   @ApiBody({ type: UserDto })
   async registerUser(@Body() input: UserDto): Promise<boolean> {
     return this.userService.register(input);
@@ -49,7 +49,7 @@ export class AppController {
 
   @ApiBearerAuth()
   @Roles(Role.Admin)
-  @Post('quiz/save')
+  @Post('quizzes/my/save')
   @UseGuards(JwtAuthGuard)
   @ApiBody({ type: SaveQuizDto })
   async saveQuiz(@Body() input: SaveQuizDto): Promise<boolean> {
@@ -58,42 +58,86 @@ export class AppController {
 
   @ApiBearerAuth()
   @Roles(Role.Admin)
-  @Get('quiz/get-all')
+  @Get('quizzes/my/get-all')
   @UseGuards(JwtAuthGuard, RolesGuard)
   async getAllQuiz(): Promise<Array<Quiz>> {
-    return await this.quizService.getAll();
+    return await this.quizService.getUserQuizzes();
   }
 
   @ApiBearerAuth()
-  @Roles(Role.Admin, Role.User)
-  @Get('quiz/get-by-id')
+  @Roles(Role.Admin)
+  @Get('quizzes/my/get-by-id')
   @UseGuards(JwtAuthGuard)
-  async getQuizById(@Query('id') id: string): Promise<Quiz> {
+  async getUserQuizById(@Query('id') id: string): Promise<Quiz> {
+    return await this.quizService.getUserQuizById(id);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.User)
+  @Get('quizzes/get-all')
+  @UseGuards(JwtAuthGuard)
+  async getAllQuizzes(
+    @Query() keyword: string,
+    @Query() skip: number,
+    @Query() limit: number,
+  ): Promise<Quiz[]> {
+    return await this.quizService.getAll(keyword, skip, limit);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.User)
+  @Get('quizzes/get-by-id')
+  @UseGuards(JwtAuthGuard)
+  async getQuizById(@Query() id: string): Promise<Quiz> {
     return await this.quizService.getById(id);
   }
 
   @ApiBearerAuth()
   @Roles(Role.User)
-  @Post('answer/save')
+  @Post('answers/save')
   @UseGuards(JwtAuthGuard)
-  @ApiBody({ type: SaveQuizDto })
+  @ApiBody({ type: SaveAnswerDto })
   async saveAnswer(@Body() input: SaveAnswerDto): Promise<boolean> {
     return this.answerService.save(input);
   }
 
   @ApiBearerAuth()
-  @Roles(Role.Admin, Role.User)
-  @Get('answer/get-all')
+  @Roles(Role.User)
+  @Get('answers/answered-by-me/get-all')
   @UseGuards(JwtAuthGuard)
-  async getAllAnswer(): Promise<Array<Answer>> {
-    return await this.answerService.getAll();
+  async getByUserWhoResponded(
+    @Query() keyword: string,
+    @Query() skip: number,
+    @Query() limit: number,
+  ): Promise<Array<Answer>> {
+    return await this.answerService.getByUserWhoResponded(keyword, skip, limit);
   }
 
   @ApiBearerAuth()
-  @Roles(Role.Admin, Role.User)
-  @Get('answer/get-by-id')
+  @Roles(Role.User)
+  @Get('answers/answered-by-me/get-by-id')
   @UseGuards(JwtAuthGuard)
-  async getAnswerById(@Query('id') id: string): Promise<Answer> {
-    return await this.answerService.getById(id);
+  async getByUserWhoRespondedById(@Query() id: string): Promise<Answer> {
+    return await this.answerService.getByUserWhoRespondedById(id);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @Get('answers/asked-by-user/get-all')
+  @UseGuards(JwtAuthGuard)
+  async getByUserWhoAsked(
+    @Query() keyword: string,
+    @Query() skip: number,
+    @Query() limit: number,
+  ): Promise<Array<Answer>> {
+    return await this.answerService.getByUserWhoAsked(keyword, skip, limit);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @Get('answers/asked-by-user/get-by-id')
+  @UseGuards(JwtAuthGuard)
+  async getByUserWhoAskedById(@Query() id: string): Promise<Answer> {
+    return await this.answerService.getByUserWhoAskedById(id);
   }
 }

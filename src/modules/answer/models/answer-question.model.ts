@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
 
-import { QuestionType } from './answer-question-type';
+import { AnswerQuestionType } from './answer-question-type';
 
-export interface Question extends Document {
+export interface AnswerQuestion extends Document {
   answer: string;
-  type: QuestionType;
+  type: AnswerQuestionType;
   description: string;
 }
