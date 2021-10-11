@@ -94,7 +94,7 @@ export class AppController {
 
   @ApiBearerAuth()
   @Roles(Role.User)
-  @Post('answer/save')
+  @Post('answers/save')
   @UseGuards(JwtAuthGuard)
   @ApiBody({ type: SaveAnswerDto })
   async saveAnswer(@Body() input: SaveAnswerDto): Promise<boolean> {
@@ -102,18 +102,42 @@ export class AppController {
   }
 
   @ApiBearerAuth()
-  @Roles(Role.Admin, Role.User)
-  @Get('answer/get-all')
+  @Roles(Role.User)
+  @Get('answers/answered-by-me/get-all')
   @UseGuards(JwtAuthGuard)
-  async getAllAnswer(): Promise<Array<Answer>> {
-    return await this.answerService.getAll();
+  async getByUserWhoResponded(
+    @Query() keyword: string,
+    @Query() skip: number,
+    @Query() limit: number,
+  ): Promise<Array<Answer>> {
+    return await this.answerService.getByUserWhoResponded(keyword, skip, limit);
   }
 
   @ApiBearerAuth()
-  @Roles(Role.Admin, Role.User)
-  @Get('answer/get-by-id')
+  @Roles(Role.User)
+  @Get('answers/answered-by-me/get-by-id')
   @UseGuards(JwtAuthGuard)
-  async getAnswerById(@Query('id') id: string): Promise<Answer> {
-    return await this.answerService.getById(id);
+  async getByUserWhoRespondedById(@Query() id: string): Promise<Answer> {
+    return await this.answerService.getByUserWhoRespondedById(id);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @Get('answers/asked-by-user/get-all')
+  @UseGuards(JwtAuthGuard)
+  async getByUserWhoAsked(
+    @Query() keyword: string,
+    @Query() skip: number,
+    @Query() limit: number,
+  ): Promise<Array<Answer>> {
+    return await this.answerService.getByUserWhoAsked(keyword, skip, limit);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @Get('answers/asked-by-user/get-by-id')
+  @UseGuards(JwtAuthGuard)
+  async getByUserWhoAskedById(@Query() id: string): Promise<Answer> {
+    return await this.answerService.getByUserWhoAskedById(id);
   }
 }

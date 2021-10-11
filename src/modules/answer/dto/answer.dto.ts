@@ -6,8 +6,6 @@ import { AnswerUserDto } from './answer-user.dto';
 
 export class AnswerDto {
   @ApiProperty()
-  _id: string;
-  @ApiProperty()
   description: string;
   @ApiProperty({ type: QuizUserDto })
   quizOf: QuizUserDto;

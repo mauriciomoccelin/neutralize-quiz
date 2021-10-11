@@ -24,7 +24,9 @@ export const AnswerCategorySchema = new mongoose.Schema({
 export const AnswerSchema = new mongoose.Schema({
   answerAt: Date,
   description: String,
+  quizOfUserId: String,
   quizOf: QuizUserSchema,
+  answerByUserId: String,
   answerBy: AnswerUserSchema,
   categories: [AnswerCategorySchema],
 });
