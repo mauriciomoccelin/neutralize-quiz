@@ -18,6 +18,7 @@ export const QuizCategorySchema = new mongoose.Schema({
 });
 
 export const QuizSchema = new mongoose.Schema({
+  userId: String,
   active: Boolean,
   description: String,
   quizOf: QuizUserSchema,
