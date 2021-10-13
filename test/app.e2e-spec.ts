@@ -67,9 +67,10 @@ describe('AppController (e2e)', () => {
 
     expect(quiz).not.toBeNull();
 
+    const qyery = { id: quiz._id };
     const response = await request(app.getHttpServer())
       .get('/app/quizzes/my/get-by-id')
-      .query({ id: quiz._id })
+      .query(qyery)
       .set('Authorization', `Bearer ${access_token}`);
 
     expect(response.status).toBe(200);
@@ -85,6 +86,26 @@ describe('AppController (e2e)', () => {
     const response = await request(app.getHttpServer())
       .get('/app/quizzes/get-all')
       .query(query)
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  test('(GET) /app/quizzes/get-by-id', async () => {
+    const responseGetAll = await request(app.getHttpServer())
+      .get('/app/quizzes/get-all')
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(responseGetAll.status).toBe(200);
+    const quizzes = responseGetAll.body as QuizDto[];
+    const quiz = quizzes[0];
+
+    expect(quiz).not.toBeNull();
+
+    const qyery = { id: quiz._id };
+    const response = await request(app.getHttpServer())
+      .get('/app/quizzes/get-by-id')
+      .query(qyery)
       .set('Authorization', `Bearer ${access_token}`);
 
     expect(response.status).toBe(200);

@@ -88,7 +88,7 @@ export class AppController {
   @Roles(Role.User)
   @Get('quizzes/get-by-id')
   @UseGuards(JwtAuthGuard)
-  async getQuizById(@Query() id: string): Promise<Quiz> {
+  async getQuizById(@Query('id') id: string): Promise<Quiz> {
     return await this.quizService.getById(id);
   }
 
