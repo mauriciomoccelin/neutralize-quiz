@@ -135,6 +135,7 @@ describe('AppController (e2e)', () => {
     const answer = responseGetById.body as SaveAnswerDto;
     expect(answer).not.toBeNull();
 
+    answer._id = null;
     for (const category of answer.categories) {
       for (const question of category.questions) {
         question.answer = lorem.sentence();
@@ -147,6 +148,14 @@ describe('AppController (e2e)', () => {
       .send(answer);
 
     expect(response.status).toBe(201);
+  });
+
+  test('(GET) /app/answers/answered-by-me/get-all', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/app/answers/answered-by-me/get-all')
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(response.status).toBe(200);
   });
 
   afterAll(async () => {
