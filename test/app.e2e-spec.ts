@@ -6,6 +6,8 @@ import { AppModule } from './../src/app.module';
 import { QuizDto } from './../src/modules/quiz/dto/quiz.dto';
 
 import { genereteUserDto, generetSaveQuizDto } from './fixture/test-fixture';
+import { SaveAnswerDto } from 'src/modules/answer/dto/save-answer.dto';
+import { lorem } from 'faker';
 
 describe('AppController (e2e)', () => {
   let access_token: string;
@@ -109,6 +111,42 @@ describe('AppController (e2e)', () => {
       .set('Authorization', `Bearer ${access_token}`);
 
     expect(response.status).toBe(200);
+  });
+
+  test('(POST) /app/answers/save', async () => {
+    const responseGetAll = await request(app.getHttpServer())
+      .get('/app/quizzes/get-all')
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(responseGetAll.status).toBe(200);
+    const quizzes = responseGetAll.body as QuizDto[];
+    const quiz = quizzes[0];
+
+    expect(quiz).not.toBeNull();
+
+    const qyery = { id: quiz._id };
+    const responseGetById = await request(app.getHttpServer())
+      .get('/app/quizzes/get-by-id')
+      .query(qyery)
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(responseGetById.status).toBe(200);
+
+    const answer = responseGetById.body as SaveAnswerDto;
+    expect(answer).not.toBeNull();
+
+    for (const category of answer.categories) {
+      for (const question of category.questions) {
+        question.answer = lorem.sentence();
+      }
+    }
+
+    const response = await request(app.getHttpServer())
+      .post('/app/answers/save')
+      .set('Authorization', `Bearer ${access_token}`)
+      .send(answer);
+
+    expect(response.status).toBe(201);
   });
 
   afterAll(async () => {
