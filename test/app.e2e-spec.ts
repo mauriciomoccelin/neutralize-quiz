@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { genereteUserDto } from './fixture/test-fixture';
+import { genereteUserDto, generetSaveQuizDto } from './fixture/test-fixture';
 
 const userToRegister = genereteUserDto();
 const userToLogin = {
@@ -36,8 +36,13 @@ describe('AppController (e2e)', () => {
     access_token = response.body.access_token;
   });
 
-  test('/ (GET)', () => {
-    console.log(access_token);
+  test('(POST) /app/quizzes/my/save', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/app/quizzes/my/save')
+      .set('Authorization', `Bearer ${access_token}`)
+      .send(generetSaveQuizDto());
+
+    expect(response.status).toBe(201);
   });
 
   afterAll(async () => {

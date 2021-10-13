@@ -19,11 +19,11 @@ export const quizQuestionType = [
 ];
 
 export const genereteUserDto = (): UserDto => ({
+  roles: roles,
+  email: internet.email().toLowerCase(),
+  username: internet.userName().toLowerCase(),
+  password: internet.password(8),
   name: name.firstName() + ' ' + name.lastName(),
-  email: internet.email(),
-  password: internet.password(),
-  username: internet.userName(),
-  roles: random.arrayElements(roles),
 });
 
 export const generetSaveQuizDto = (): SaveQuizDto => ({
@@ -38,8 +38,8 @@ export const generetSaveQuizDto = (): SaveQuizDto => ({
 });
 
 export const generetQuizCategoryDto = (): QuizCategoryDto => ({
-  description: internet.email(),
   active: datatype.boolean(),
+  description: lorem.sentence(),
   questions: Array.from(
     { length: datatype.number({ min: 1, max: 10 }) },
     generetQuizQuestionDto,
@@ -47,7 +47,7 @@ export const generetQuizCategoryDto = (): QuizCategoryDto => ({
 });
 
 export const generetQuizQuestionDto = (): QuizQuestionDto => ({
-  description: internet.email(),
   active: datatype.boolean(),
+  description: lorem.sentence(),
   type: random.arrayElement(quizQuestionType),
 });
