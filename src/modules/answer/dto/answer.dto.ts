@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { QuizUserDto } from 'src/modules/quiz/dto/quiz-user.dto';
+import { QuizUserDto } from '../../quiz/dto/quiz-user.dto';
 import { AnswerCategory } from './answer-category.dto';
 import { AnswerUserDto } from './answer-user.dto';
 

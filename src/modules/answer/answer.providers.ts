@@ -1,5 +1,5 @@
 import { Connection } from 'mongoose';
-import { AnswerSchema } from 'src/database/schemas/answer.schema';
+import { AnswerSchema } from '../../database/schemas/answer.schema';
 
 export const answerProviders = [
   {

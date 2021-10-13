@@ -1,5 +1,5 @@
 import { Connection } from 'mongoose';
-import { QuizSchema } from 'src/database/schemas/quiz.schema';
+import { QuizSchema } from '../../database/schemas/quiz.schema';
 
 export const quizProviders = [
   {
