@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AnswerQuestion } from './answer-question.dto';
+import { AnswerQuestionDto } from './answer-question.dto';
 
-export class AnswerCategory {
+export class AnswerCategoryDto {
   @ApiProperty()
   description: string;
-  @ApiProperty({ type: () => [AnswerQuestion] })
-  questions: AnswerQuestion[];
+  @ApiProperty({ type: () => [AnswerQuestionDto] })
+  questions: AnswerQuestionDto[];
 }
