@@ -75,6 +75,21 @@ describe('AppController (e2e)', () => {
     expect(response.status).toBe(200);
   });
 
+  test('(GET) /app/quizzes/get-all', async () => {
+    const query = {
+      skip: 1,
+      limit: 10,
+      keyword: null,
+    };
+
+    const response = await request(app.getHttpServer())
+      .get('/app/quizzes/get-all')
+      .query(query)
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(response.status).toBe(200);
+  });
+
   afterAll(async () => {
     await app.close();
   });

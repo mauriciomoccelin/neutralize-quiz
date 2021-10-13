@@ -77,9 +77,9 @@ export class AppController {
   @Get('quizzes/get-all')
   @UseGuards(JwtAuthGuard)
   async getAllQuizzes(
-    @Query() keyword: string,
-    @Query() skip: number,
-    @Query() limit: number,
+    @Query('keyword') keyword: string,
+    @Query('skip') skip: number,
+    @Query('limit') limit: number,
   ): Promise<Quiz[]> {
     return await this.quizService.getAll(keyword, skip, limit);
   }
