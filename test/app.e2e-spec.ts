@@ -7,12 +7,6 @@ import { QuizDto } from './../src/modules/quiz/dto/quiz.dto';
 
 import { genereteUserDto, generetSaveQuizDto } from './fixture/test-fixture';
 
-const userToRegister = genereteUserDto();
-const userToLogin = {
-  username: userToRegister.username,
-  password: userToRegister.password,
-};
-
 describe('AppController (e2e)', () => {
   let access_token: string;
   let app: INestApplication;
@@ -24,6 +18,12 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    const userToRegister = genereteUserDto();
+    const userToLogin = {
+      username: userToRegister.username,
+      password: userToRegister.password,
+    };
 
     await request(app.getHttpServer())
       .post('/app/users/register')
