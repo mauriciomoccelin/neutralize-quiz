@@ -81,9 +81,7 @@ export class QuizService {
   }
 
   async getById(id: string): Promise<Quiz> {
-    const quiz = await this.quizModel
-      .findOne({ _id: id })
-      .exec();
+    const quiz = await this.quizModel.findOne({ _id: id }).exec();
 
     return quiz;
   }

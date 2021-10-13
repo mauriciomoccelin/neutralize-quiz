@@ -6,10 +6,10 @@ import { QuizUser } from 'src/modules/quiz/models/quiz-user';
 
 export interface Answer extends Document {
   description: string;
-  quizOfUserId: string,
+  quizOfUserId: string;
   quizOf: QuizUser;
   answerAt: Date;
-  answerByUserId: string,
+  answerByUserId: string;
   answerBy: AnswerUser;
   categories: AnswerCategory[];
 }
