@@ -5,7 +5,12 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { QuizDto } from './../src/modules/quiz/dto/quiz.dto';
 
-import { genereteUserDto, generetSaveQuizDto } from './fixture/test-fixture';
+import {
+  genereteUserDto,
+  generetSaveQuizDto,
+  genereteQueryPagedList,
+} from './fixture/test-fixture';
+
 import { SaveAnswerDto } from 'src/modules/answer/dto/save-answer.dto';
 import { lorem } from 'faker';
 
@@ -79,11 +84,7 @@ describe('AppController (e2e)', () => {
   });
 
   test('(GET) /app/quizzes/get-all', async () => {
-    const query = {
-      skip: 1,
-      limit: 10,
-      keyword: null,
-    };
+    const query = genereteQueryPagedList();
 
     const response = await request(app.getHttpServer())
       .get('/app/quizzes/get-all')
@@ -150,9 +151,35 @@ describe('AppController (e2e)', () => {
     expect(response.status).toBe(201);
   });
 
+  const query = genereteQueryPagedList();
+
   test('(GET) /app/answers/answered-by-me/get-all', async () => {
     const response = await request(app.getHttpServer())
       .get('/app/answers/answered-by-me/get-all')
+      .query(query)
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  test('(GET) /app/answers/answered-by-me/get-by-id', async () => {
+    const queryGelAll = genereteQueryPagedList();
+
+    const responseGetAll = await request(app.getHttpServer())
+      .get('/app/answers/answered-by-me/get-all')
+      .query(queryGelAll)
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(responseGetAll.status).toBe(200);
+    const answers = responseGetAll.body as QuizDto[];
+    const answer = answers[0];
+
+    expect(answer).not.toBeNull();
+
+    const query = { id: answer._id };
+    const response = await request(app.getHttpServer())
+      .get('/app/answers/answered-by-me/get-by-id')
+      .query(query)
       .set('Authorization', `Bearer ${access_token}`);
 
     expect(response.status).toBe(200);

@@ -7,6 +7,18 @@ import { QuizCategoryDto } from '../../src/modules/quiz/dto/quiz-category.dto';
 import { QuizQuestionDto } from '../../src/modules/quiz/dto/quiz-question.dto';
 import { QuizQuestionType } from '../../src/modules/quiz/models/quiz-question-type';
 
+interface IQueryPagedList {
+  skip: number;
+  limit: number;
+  keyword: string;
+}
+
+export const genereteQueryPagedList = (): IQueryPagedList => ({
+  skip: 0,
+  keyword: null,
+  limit: datatype.number({ min: 1, max: 10 }),
+});
+
 export const roles: Role[] = [Role.Admin, Role.User];
 export const quizQuestionType = [
   QuizQuestionType.Number,

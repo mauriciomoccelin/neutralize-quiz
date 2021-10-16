@@ -106,9 +106,9 @@ export class AppController {
   @Get('answers/answered-by-me/get-all')
   @UseGuards(JwtAuthGuard)
   async getByUserWhoResponded(
-    @Query() keyword: string,
-    @Query() skip: number,
-    @Query() limit: number,
+    @Query('keyword') keyword: string,
+    @Query('skip') skip: number,
+    @Query('limit') limit: number,
   ): Promise<Array<Answer>> {
     return await this.answerService.getByUserWhoResponded(keyword, skip, limit);
   }
@@ -117,7 +117,7 @@ export class AppController {
   @Roles(Role.User)
   @Get('answers/answered-by-me/get-by-id')
   @UseGuards(JwtAuthGuard)
-  async getByUserWhoRespondedById(@Query() id: string): Promise<Answer> {
+  async getByUserWhoRespondedById(@Query('id') id: string): Promise<Answer> {
     return await this.answerService.getByUserWhoRespondedById(id);
   }
 
@@ -126,9 +126,9 @@ export class AppController {
   @Get('answers/asked-by-user/get-all')
   @UseGuards(JwtAuthGuard)
   async getByUserWhoAsked(
-    @Query() keyword: string,
-    @Query() skip: number,
-    @Query() limit: number,
+    @Query('keyword') keyword: string,
+    @Query('skip') skip: number,
+    @Query('limit') limit: number,
   ): Promise<Array<Answer>> {
     return await this.answerService.getByUserWhoAsked(keyword, skip, limit);
   }
@@ -137,7 +137,7 @@ export class AppController {
   @Roles(Role.Admin)
   @Get('answers/asked-by-user/get-by-id')
   @UseGuards(JwtAuthGuard)
-  async getByUserWhoAskedById(@Query() id: string): Promise<Answer> {
+  async getByUserWhoAskedById(@Query("id") id: string): Promise<Answer> {
     return await this.answerService.getByUserWhoAskedById(id);
   }
 }
