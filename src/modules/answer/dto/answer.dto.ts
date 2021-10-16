@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { QuizUserDto } from 'src/modules/quiz/dto/quiz-user.dto';
-import { AnswerCategory } from './answer-category.dto';
+import { QuizUserDto } from '../../quiz/dto/quiz-user.dto';
+import { AnswerCategoryDto } from './answer-category.dto';
 import { AnswerUserDto } from './answer-user.dto';
 
 export class AnswerDto {
+  @ApiProperty()
+  _id: string;
   @ApiProperty()
   description: string;
   @ApiProperty({ type: QuizUserDto })
@@ -13,6 +15,6 @@ export class AnswerDto {
   answerBy: AnswerUserDto;
   @ApiProperty()
   answerAt: Date;
-  @ApiProperty({ type: () => [AnswerCategory] })
-  categories: AnswerCategory[];
+  @ApiProperty({ type: () => [AnswerCategoryDto] })
+  categories: AnswerCategoryDto[];
 }

@@ -5,9 +5,9 @@ import { Role } from '../roles/role.enum';
 import { User } from '../users/models/use.model';
 
 export interface IdentityModel {
-  id: string
-  name: string,
-  email: string,
+  id: string;
+  name: string;
+  email: string;
   username: string;
   roles: Role[];
 }
@@ -24,7 +24,7 @@ export class IdentityService {
       email: userRequest.email,
       username: userRequest.username,
       roles: userRequest.roles,
-    }
+    };
 
     return identityModel as IdentityModel;
   }

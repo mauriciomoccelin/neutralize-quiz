@@ -7,12 +7,12 @@ export const AnswerQuestionSchema = new mongoose.Schema({
 });
 
 export const QuizUserSchema = new mongoose.Schema({
-  name: Boolean,
+  name: String,
   email: String,
 });
 
 export const AnswerUserSchema = new mongoose.Schema({
-  name: Boolean,
+  name: String,
   email: String,
 });
 

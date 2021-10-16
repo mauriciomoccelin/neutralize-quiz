@@ -7,7 +7,7 @@ export const QuizQuestionSchema = new mongoose.Schema({
 });
 
 export const QuizUserSchema = new mongoose.Schema({
-  name: Boolean,
+  name: String,
   email: String,
 });
 
