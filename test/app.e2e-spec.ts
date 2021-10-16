@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
+import { lorem } from 'faker';
 
 import { AppModule } from './../src/app.module';
 import { QuizDto } from './../src/modules/quiz/dto/quiz.dto';
@@ -11,8 +12,9 @@ import {
   genereteQueryPagedList,
 } from './fixture/test-fixture';
 
-import { SaveAnswerDto } from 'src/modules/answer/dto/save-answer.dto';
-import { lorem } from 'faker';
+import { AnswerDto } from '../src/modules/answer/dto/answer.dto';
+import { SaveAnswerDto } from '../src/modules/answer/dto/save-answer.dto';
+
 
 describe('AppController (e2e)', () => {
   let access_token: string;
@@ -171,7 +173,7 @@ describe('AppController (e2e)', () => {
       .set('Authorization', `Bearer ${access_token}`);
 
     expect(responseGetAll.status).toBe(200);
-    const answers = responseGetAll.body as QuizDto[];
+    const answers = responseGetAll.body as AnswerDto[];
     const answer = answers[0];
 
     expect(answer).not.toBeNull();
@@ -193,6 +195,29 @@ describe('AppController (e2e)', () => {
       .query(query)
       .set('Authorization', `Bearer ${access_token}`);
   
+    expect(response.status).toBe(200);
+  });
+
+  test('(GET) /app/answers/asked-by-user/get-by-id', async () => {
+    const queryGelAll = genereteQueryPagedList();
+
+    const responseGetAll = await request(app.getHttpServer())
+      .get('/app/answers/asked-by-user/get-all')
+      .query(queryGelAll)
+      .set('Authorization', `Bearer ${access_token}`);
+
+    expect(responseGetAll.status).toBe(200);
+    const answers = responseGetAll.body as AnswerDto[];
+    const answer = answers[0];
+
+    expect(answer).not.toBeNull();
+
+    const query = { id: answer._id };
+    const response = await request(app.getHttpServer())
+      .get('/app/answers/answered-by-me/get-by-id')
+      .query(query)
+      .set('Authorization', `Bearer ${access_token}`);
+
     expect(response.status).toBe(200);
   });
 
