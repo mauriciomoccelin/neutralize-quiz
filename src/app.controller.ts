@@ -7,7 +7,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { SaveQuizDto } from './modules/quiz/dto/save-quiz.dto';
 import { Quiz } from './modules/quiz/models/quiz.model';
@@ -73,6 +73,11 @@ export class AppController {
   }
 
   @ApiBearerAuth()
+  @ApiQuery({
+    name: "keyword",
+    type: String,
+    required: false
+  })
   @Roles(Role.User)
   @Get('quizzes/get-all')
   @UseGuards(JwtAuthGuard)
