@@ -70,10 +70,10 @@ export class QuizService {
   async getAll(keyword: string, skip: number, limit: number): Promise<Quiz[]> {
     const quizzes = await this.quizModel
       .find({
-        projection: { description: 1 },
         options: { skip: skip, limit: limit },
         filter: { active: true, description: keyword },
       })
+      .select(['description', 'quizOf'])
       .sort('description')
       .exec();
 
